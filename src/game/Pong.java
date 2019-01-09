@@ -16,6 +16,7 @@ public class Pong implements ActionListener, KeyListener {
     public Ball ball;
     public boolean bot = false;
     public boolean w,s, down, up;
+    public int gameStatus = 0;// 0= stopped
 
 
 
@@ -25,7 +26,7 @@ public class Pong implements ActionListener, KeyListener {
         renderer = new Renderer();
 
 
-        jframe.setSize(width +15,height);
+        jframe.setSize(width +15,height +35);
         jframe.setVisible(true);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(renderer);
@@ -63,23 +64,46 @@ public class Pong implements ActionListener, KeyListener {
 
         graphics.setColor(Color.GRAY);
         graphics.fillRect(0,0,width,height);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        //wygładzanie
+
+        if (gameStatus==0){
+            graphics.setColor(Color.BLACK);
+            graphics.setFont(new Font("Rockwell",3,30));
+            graphics.drawString("PONG",width /2 -47,50);
+
+            graphics.setFont(new Font("Rockwell",2,20));
+            graphics.drawString("pojedynczy gracz - nacisnij spacje ",width /2 -120,height /2 - 30);
+            graphics.drawString("wielu graczy - nacisnij enter",width /2 -120,height /2 + 30);
+        }
+
+        if (gameStatus == 2 || gameStatus == 1) {
+            graphics.setColor(Color.black);
+            graphics.setStroke(new BasicStroke(7f));
+            graphics.drawLine(width / 2, 0, width / 2, height);
+            //linia po srodku
+            player1.render(graphics);
+            player2.render(graphics);
+            ball.render(graphics);
+        }
+
+            if (gameStatus==1){
+                graphics.setColor(Color.BLACK);
+                graphics.setFont(new Font("Rockwell",1,30));
+                graphics.drawString("Pauza",width /2 -20,height /2 - 25);
+            }
+        }
 
 
-
-        graphics.setColor(Color.black);
-        graphics.setStroke(new BasicStroke(7f));
-        graphics.drawLine(width / 2,0,width / 2  ,height);
-        //linia po srodku
-
-        player1.render(graphics);
-        player2.render(graphics);
-        ball.render(graphics);
-    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        update();
+        if (gameStatus ==2){
+
+            update();
+        }
+
         renderer.repaint();
 
     }
@@ -130,6 +154,14 @@ public class Pong implements ActionListener, KeyListener {
 
         if (id == KeyEvent.VK_UP){
             up = false;
+        }
+        if(id ==KeyEvent.VK_SPACE){
+            if (gameStatus ==0 || gameStatus ==1){
+                gameStatus = 2;
+            }
+            if (gameStatus ==1){
+
+            }
         }
     }
 }
