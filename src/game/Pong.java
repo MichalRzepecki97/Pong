@@ -13,8 +13,11 @@ public class Pong implements ActionListener, KeyListener {
     int width=800,height = 720;
     public Renderer renderer;
     public Paddle player1,player2;
+    public Ball ball;
     public boolean bot = false;
     public boolean w,s, down, up;
+
+
 
     public Pong() {
         Timer timer = new Timer(20,this);
@@ -35,7 +38,7 @@ public class Pong implements ActionListener, KeyListener {
     public void start(){
         player1 = new Paddle(this,1);
         player2 = new Paddle(this,2);
-
+        ball = new Ball(this);
 
     }
 
@@ -64,12 +67,13 @@ public class Pong implements ActionListener, KeyListener {
 
 
         graphics.setColor(Color.black);
-        graphics.setStroke(new BasicStroke(5f));
+        graphics.setStroke(new BasicStroke(7f));
         graphics.drawLine(width / 2,0,width / 2  ,height);
         //linia po srodku
 
         player1.render(graphics);
         player2.render(graphics);
+        ball.render(graphics);
     }
 
 
