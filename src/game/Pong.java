@@ -14,7 +14,7 @@ public class Pong implements ActionListener, KeyListener {
     public Renderer renderer;
     public Paddle player1,player2;
     public Ball ball;
-    public boolean bot = false;
+    public boolean ai = false;
     public boolean w,s, down, up;
     public int gameStatus = 0;// 0= stopped
 
@@ -79,7 +79,7 @@ public class Pong implements ActionListener, KeyListener {
 
         if (gameStatus == 2 || gameStatus == 1) {
             graphics.setColor(Color.black);
-            graphics.setStroke(new BasicStroke(7f));
+            graphics.setStroke(new BasicStroke(3f));
             graphics.drawLine(width / 2, 0, width / 2, height);
             //linia po srodku
             player1.render(graphics);
@@ -87,11 +87,12 @@ public class Pong implements ActionListener, KeyListener {
             ball.render(graphics);
         }
 
-            if (gameStatus==1){
+            if (gameStatus == 1){
                 graphics.setColor(Color.BLACK);
                 graphics.setFont(new Font("Rockwell",1,30));
-                graphics.drawString("Pauza",width /2 -20,height /2 - 25);
+                graphics.drawString("Pauza",width /2 -36,height /2 - 35);
             }
+            //spacja - pauza
         }
 
 
@@ -134,6 +135,24 @@ public class Pong implements ActionListener, KeyListener {
         if (id == KeyEvent.VK_UP){
             up = true;
         }
+        if(id ==KeyEvent.VK_ENTER){
+            if (gameStatus ==0) {
+                ai = true;
+                gameStatus =2;
+            }
+        }
+        if(id ==KeyEvent.VK_SPACE){
+            if (gameStatus ==0){
+                gameStatus = 2;
+                ai =false;
+            }
+            else if (gameStatus ==1){
+                gameStatus = 2;
+            }
+            else if (gameStatus ==2){
+                gameStatus =1;
+            }
+        }
 //check
 
     }
@@ -155,13 +174,6 @@ public class Pong implements ActionListener, KeyListener {
         if (id == KeyEvent.VK_UP){
             up = false;
         }
-        if(id ==KeyEvent.VK_SPACE){
-            if (gameStatus ==0 || gameStatus ==1){
-                gameStatus = 2;
-            }
-            if (gameStatus ==1){
 
-            }
-        }
     }
 }
